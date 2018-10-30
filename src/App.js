@@ -12,6 +12,7 @@ class BooksApp extends React.Component {
     books:[]
   }
    componentDidMount() {
+    console.log(BooksAPI.getAll())
     BooksAPI.getAll().then(data => {
       this.setState({
         books: data
@@ -34,14 +35,12 @@ changeShelf = (book, evt) => {
 
 
   render() {
-      console.log(BooksAPI.getAll())
-
 
     return (
 
       <div className="app">
         {this.state.showSearchPage ? 
-          <SearchPage books= {BooksAPI.getAll()}/> 
+          <SearchPage books= {this.state.books} changeShelf={this.changeShelf}/> 
           : 
 
           (

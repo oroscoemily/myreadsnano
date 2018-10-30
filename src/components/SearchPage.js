@@ -5,26 +5,44 @@ import {search} from '../BooksAPI'
 import Book from './Book.js'
 
 class SearchPage extends React.Component{
-	state = {
-		text: '',
-    	books:[]
+	constructor(){
+		super()
+		this.state = {
+			query: '',
+			books:[]
+		}
 	}
 
 	componentDidMount(){
-		const books =  BooksAPI.getAll();
-      	this.props = books
+		const books = getAll();
+		if (books){
+			console.log(books)
+			this.props.books
+		} else{
+			console.log(books.error)
+		}
+
+
 	}
 
-	searchHandler = evt => {
-		
+	searchHandler =async evt => {
 		const text = evt.target.value
 		this.setState({text})
-			if (text){
-				const results =  BooksAPI.search(text)
-				this.setState({books:results})
-				console.log(results)
+		if (text){
+			const results = await search(text)
+			console.log(results)
+				if (results.error){
+					this.setState({books:[]})
+				} else {
+					this.setState({books:results})
+				}
+		} else {
+				this.setState({books:[]})
 			}
-		}
+		
+	}
+
+
 	
 
 	render(){
@@ -46,8 +64,10 @@ class SearchPage extends React.Component{
               			book.shelf = foundBook.shelf
               		} else{
               			book.shelf = 'none'
-              		}return (<Book {...book} key={book.id} changeShelf={this.props.changeShelf}/>)})
-              	}
+              			
+              		}
+              		return (<Book {...book} key={book.id} changeShelf={this.props.changeShelf}/>)
+              	})}
                </ol>
 
                
