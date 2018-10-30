@@ -1,10 +1,10 @@
-import React from 'react'
-import * as BooksAPI from './BooksAPI'
-import {getAll} from './BooksAPI'
-import './App.css'
-import SearchPage from './components/SearchPage.js'
-import Bookshelf from './components/Bookshelf.js'
-import Book from './components/Book.js'
+import React from "react";
+import * as BooksAPI from "./BooksAPI";
+import { getAll } from "./BooksAPI";
+import "./App.css";
+import SearchPage from "./components/SearchPage.js";
+import Bookshelf from "./components/Bookshelf.js";
+import Book from "./components/Book.js";
 
 class BooksApp extends React.Component {
   state = {
@@ -18,12 +18,30 @@ class BooksApp extends React.Component {
       });
     });
   }
-  
+
+changeShelf = (book, evt) => {
+    console.log(book, evt.target.value);
+    const shelf = evt.target.value;
+    BooksAPI.update(book, shelf).then(() => {
+      BooksAPI.getAll().then(books => {
+        this.setState({
+          books: books
+        });
+      });
+    });
+  };  
+
+
+
   render() {
+      console.log(BooksAPI.getAll())
+
+
     return (
+
       <div className="app">
         {this.state.showSearchPage ? 
-          <SearchPage/> 
+          <SearchPage books= {BooksAPI.getAll()}/> 
           : 
 
           (
@@ -35,12 +53,15 @@ class BooksApp extends React.Component {
               <div>
                 <Bookshelf 
                   title='Currently Reading'
+                  changeShelf={this.changeShelf}
                   books={this.state.books.filter(book => book.shelf === 'currentlyReading')}/>
                 <Bookshelf 
                   title='Want to Read'
+                  changeShelf={this.changeShelf}
                   books={this.state.books.filter(book => book.shelf === 'wantToRead')}/>
                 <Bookshelf 
                   title='Read'
+                  changeShelf={this.changeShelf}
                   books={this.state.books.filter(book => book.shelf === 'read')}/>
               </div>
             </div>

@@ -6,15 +6,6 @@ import * as BooksAPI from '../BooksAPI';
 
 class Book extends React.Component{
 
-	changeShelf = evt => {
-		const books = BooksAPI.getAll();
-		const shelf = evt.target.value;
-		const book = this.props;
-		update(book, shelf)
-		const allBooks = BooksAPI.getAll()
-		this.setState({books:allBooks});
-	}
-
 	render(){
 		return (
 			<li>
@@ -22,7 +13,7 @@ class Book extends React.Component{
                   <div className="book-top">
                     <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${this.props.imageLinks ? this.props.imageLinks.thumbnail : ''}")`}}></div>
                     <div className="book-shelf-changer">
-                      <select value={this.props.shelf} onChange={this.changeShelf}>
+                      <select value={this.props.shelf} onChange={e => this.props.changeShelf(this.props, e)}>
                         <option value="move" disabled>Move to...</option>
                         <option value="currentlyReading">Currently Reading</option>
                         <option value="wantToRead">Want to Read</option>
