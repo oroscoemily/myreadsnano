@@ -3,6 +3,7 @@ import * as BooksAPI from '../BooksAPI'
 import {getAll} from '../BooksAPI'
 import {search} from '../BooksAPI'
 import Book from './Book.js'
+import {Link} from 'react-router-dom'
 
 class SearchPage extends React.Component{
 	constructor(){
@@ -25,7 +26,7 @@ class SearchPage extends React.Component{
 
 	}
 
-	searchHandler =async evt => {
+	searchHandler = async evt => {
 		const text = evt.target.value
 		this.setState({text})
 		if (text){
@@ -49,7 +50,7 @@ class SearchPage extends React.Component{
 		return (
           <div className="search-books">
             <div className="search-books-bar">
-              <a className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</a>
+              <Link to={'/'} className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</Link>
               <div className="search-books-input-wrapper">
                 <input type="text" placeholder="Search by title or author" onChange={this.searchHandler}/>
 

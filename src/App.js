@@ -35,22 +35,14 @@ changeShelf = (book, evt) => {
   };  
 
 
-
   render() {
-
     return (
 
       <div className="app">
-        {this.state.showSearchPage ? 
-          <SearchPage books= {this.state.books} changeShelf={this.changeShelf}/> 
-          : 
-          (<div >
-              <HomePage books={this.state.books} changeShelf={this.changeShelf} />
-          <div className="open-search">
-              <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
-            </div>
-          </div>
-          )}
+      <Switch>
+        <Route exact path = '/' render={() => (<HomePage books={this.state.books} changeShelf={this.changeShelf}/>)} />
+        <Route exact path = '/search' render={() => (<SearchPage books={this.state.books} changeShelf={this.changeShelf}/>)}/>
+      </Switch>
       </div>
     )
   }
